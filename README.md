@@ -22,27 +22,14 @@ Aplicação web de comércio eletrônico simplificada desenvolvida com Python e 
 
 1. Clone o repositório ou navegue até a pasta do projeto
 
-2. Crie um ambiente virtual:
-```bash
-python3 -m venv venv
-source venv/bin/activate  # Linux/Mac
-# ou
-venv\Scripts\activate  # Windows
-```
-
-3. Instale as dependências:
+2. Instale as dependências:
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Inicialize o banco de dados:
+3. Inicialize o banco de dados:
 ```bash
 python app.py
-```
-
-5. (Opcional) Popule o banco com produtos de exemplo:
-```bash
-python popular_banco.py
 ```
 
 ## 🏃 Executando Localmente

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Cadastro — Loja Online{% endblock %}
+{% block content %}
+
+<h1>Cadastro de Cliente</h1>
+
+<form class="form" method="post">
+  <label>Nome</label>
+
+  <input type="text" name="nome" required>
+
+  <label>E-mail</label>
+
+  <input type="email" name="email" required>
+
+  <label>Telefone</label>
+
+  <input type="text" name="telefone">
+
+  <label>Senha</label>
+
+  <input type="password" name="senha" required>
+
+  <button class="btn">Registrar</button>
+</form>
+
+<p>Já tem uma conta? <a href="{{ url_for('login') }}">Faça login</a></p>
+
+{% endblock %}

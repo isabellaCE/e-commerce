@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Carrinho — Loja Online{% endblock %}
+{% block content %}
+<h1>Carrinho</h1>
+{% if not itens %}
+<p>Seu carrinho está vazio.</p>
+{% else %}
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Produto</th>
+      <th>Qtd.</th>
+      <th>Preço</th>
+      <th>Subtotal</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for item in itens %}
+    <tr>
+      <td>{{ item.nome_produto }}</td>
+      <td>
+        <form method="POST" action="{{ url_for('carrinho') }}">
+          <input type="hidden" name="acao" value="atualizar">
+          <input type="hidden" name="item_id" value="{{ item.id }}">
+          <input type="number" name="quantidade" value="{{ item.quantidade }}" min="1" required>
+          <button type="submit" class="btn">Atualizar</button>
+        </form>
+      </td>
+      <td>R$ {{ "%.2f"|format(item.preco_unitario) }}</td>
+      <td>R$ {{ "%.2f"|format(item.subtotal) }}</td>
+      <td>
+        <form method="POST" action="{{ url_for('carrinho') }}">
+          <input type="hidden" name="acao" value="remover">
+          <input type="hidden" name="item_id" value="{{ item.id }}">
+          <button type="submit" class="btn danger">Remover</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <td colspan="3" style="text-align: right">Total</td>
+      <td><b>R$ {{ "%.2f"|format(total) }}</b></td>
+      <td></td>
+    </tr>
+  </tfoot>
+</table>
+
+{% if session.cliente_id %}
+  <p><a class="btn" href="{{ url_for('checkout') }}">Finalizar pedido</a></p>
+{% else %}
+  <p>Você precisa fazer <a href="{{ url_for('login') }}">login</a> para finalizar a compra.</p>
+{% endif %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Pedido #{{ pedido.id }} — Loja Online{% endblock %}
+{% block content %}
+
+<div class="pedido-card">
+  <h1 class="pedido-title">Pedido #{{ pedido.id }}</h1>
+  <p class="pedido-status">
+    Status:
+    <span class="pill {{ 'success' if pedido.status == 'confirmado' else 'muted' }}">
+      {{ pedido.status }}
+    </span>
+  </p>
+  <hr />
+  <h3 class="pedido-section">Itens</h3>
+
+  <div class="pedido-itens">
+    {% for item in itens %}
+    <div class="pedido-item">
+      <div>
+        <div class="pedido-item-nome">{{ item.produto_nome }}</div>
+        <div class="pedido-item-qtd muted">
+          {{ item.quantidade }} × R$ {{ "%.2f"|format(item.preco_unitario) }}
+        </div>
+      </div>
+
+      <div class="pedido-item-total">
+        R$ {{ "%.2f"|format(item.subtotal) }}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <hr />
+  <div class="pedido-total">
+    <span>Total:</span>
+    <strong>R$ {{ "%.2f"|format(total) }}</strong>
+  </div>
+
+  {% if pagamento %}
+  <div class="pedido-pagamento">
+    Pagamento:
+    <b>{{ pagamento.tipo }}</b> — {{ pagamento.status }}
+  </div>
+  {% endif %}
+
+  <div class="pedido-botoes">
+    <a class="btn primary" href="{{ url_for('index') }}">
+      Voltar ao Catálogo
+    </a>
+  </div>
+</div>
+{% endblock %}

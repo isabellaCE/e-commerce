@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}{{ produto.nome }} — Loja Online{% endblock %}
+{% block content %}
+
+<a class="back-link" href="{{ url_for('index') }}">← Voltar ao Catálogo</a>
+
+<div class="detail">
+  <div class="detail-header">
+    <h1 class="detail-title">{{ produto.nome }}</h1>
+    <p class="muted detail-subtitle">{{ produto.descricao or 'Sem descrição disponível.' }}</p>
+  </div>
+
+  <div class="detail-media empty">
+  </div>
+
+  <section class="panel price-panel">
+    <div class="price-lg">R$ {{ "%.2f"|format(produto.preco) }}</div>
+
+    <div class="stock-line">
+      <span class="muted">Estoque disponível:</span>
+      <span class="pill solid">{{ produto.estoque }} unidades</span>
+    </div>
+
+    <form class="qty-form" method="post" action="{{ url_for('carrinho') }}">
+      <input type="hidden" name="acao" value="adicionar" />
+      
+      <input type="hidden" name="produto_id" value="{{ produto.id }}" />
+      
+      <label class="label" for="qtd">Quantidade</label>
+      
+      <input id="qtd" class="input" type="number" name="quantidade" value="1" min="1" max="{{ produto.estoque }}"/>
+
+      {% if produto.estoque > 0 %}
+
+      <button type="submit" class="btn primary block large">
+        🛒&nbsp; Adicionar ao Carrinho
+      </button>
+
+      {% else %}
+      <button type="button" class="btn primary block large" disabled>
+        Produto Indisponível
+      </button>
+      {% endif %}
+    </form>
+  </section>
+
+  <section class="panel info-panel">
+    <h3 class="panel-title">Informações do Produto</h3>
+    <div class="info-grid">
+      <div class="info-row">
+        <span class="muted">Código:</span>
+        <span>#{{ "%06d"|format(produto.id) }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="muted">Disponibilidade:</span>
+        <span>{{ 'Em estoque' if produto.estoque|int > 0 else 'Indisponível' }}</span>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Checkout — Loja Online{% endblock %}
+{% block content %}
+<h1>Finalização do Pedido</h1>
+{% if cliente %}
+
+<div>
+  <p><strong>Nome:</strong> {{ cliente.nome }}</p>
+  <p><strong>Email:</strong> {{ cliente.email }}</p>
+  {% if cliente.telefone %}
+  <p><strong>Telefone:</strong> {{ cliente.telefone }}</p>
+  {% endif %}
+</div>
+
+{% endif %}
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Produto</th>
+      <th>Qtd.</th>
+      <th>Preço</th>
+      <th>Subtotal</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for item in itens %}
+    <tr>
+      <td>{{ item.nome_produto }}</td>
+      <td>{{ item.quantidade }}</td>
+      <td>R$ {{ "%.2f"|format(item.preco_unitario) }}</td>
+      <td>R$ {{ "%.2f"|format(item.subtotal) }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <td colspan="3" style="text-align: right">Total</td>
+      <td><b>R$ {{ "%.2f"|format(total) }}</b></td>
+    </tr>
+  </tfoot>
+</table>
+
+<form class="form" method="post">
+  <label class="label" for="pay">Método de Pagamento</label>
+  <div class="pay-row">
+    <div class="select-wrap">
+      <select id="pay" name="tipo_pagamento" class="select-native" required>
+        <option value="" disabled selected>Selecione</option>
+        <option value="pix">Pix</option>
+        <option value="cartao">Cartão de Crédito</option>
+        <option value="boleto">Boleto</option>
+      </select>
+    </div>
+    <button type="submit" class="btn pay-submit">Confirmar pedido</button>
+  </div>
+</form>
+
+<p><a href="{{ url_for('carrinho') }}">Voltar ao Carrinho</a></p>
+{% endblock %}

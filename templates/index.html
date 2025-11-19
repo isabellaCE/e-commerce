@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Catálogo — Loja Online{% endblock %}
+{% block content %}
+<h1>Catálogo de Produtos</h1>
+{% if produtos %}
+<div class="grid">
+  {% for produto in produtos %}
+  <div class="card product-card">
+    <div class="card-media empty">
+    </div>
+    <div class="card-body">
+      <h3 class="product-title">{{ produto.nome }}</h3>
+      <p class="product-desc">{{ produto.descricao or 'Sem descrição' }}</p>
+
+      <div class="product-row">
+        <div class="price">R$ {{ "%.2f"|format(produto.preco) }}</div>
+        <div class="stock">Estoque: {{ produto.estoque }}</div>
+      </div>
+
+      <a class="btn ghost block" href="{{ url_for('produto_detalhes', id=produto.id) }}">
+        Ver Detalhes
+      </a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% else %}
+<p>Nenhum produto disponível no momento.</p>
+{% endif %}
+{% endblock %}
